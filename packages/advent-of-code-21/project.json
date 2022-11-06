@@ -1,0 +1,29 @@
+{
+  "root": "packages/advent-of-code-21",
+  "sourceRoot": "packages/advent-of-code-21/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "packages/advent-of-code-21/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": [
+        "coverage/packages/advent-of-code-21"
+      ],
+      "options": {
+        "jestConfig": "packages/advent-of-code-21/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}
