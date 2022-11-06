@@ -1,5 +1,15 @@
-import {Axios} from 'axios-observable';
-import {concat, filter, map, mergeMap, Observable, of, pairwise, toArray,} from 'rxjs';
+import { Axios } from 'axios-observable';
+import {
+  bufferCount,
+  concat,
+  filter,
+  map,
+  mergeMap,
+  Observable,
+  of,
+  pairwise,
+  toArray,
+} from 'rxjs';
 
 describe('advent of code 21', () => {
   const axios: Axios = Axios.create({
@@ -16,7 +26,7 @@ describe('advent of code 21', () => {
       axios
         .get('/1/input')
         .pipe(
-          map(({data}) =>
+          map(({ data }) =>
             data.split('\n').map((item) => of(Number.parseInt(item)))
           ),
           mergeMap((data: Observable<string>[]) => concat(...data)),
@@ -29,6 +39,28 @@ describe('advent of code 21', () => {
           next: (result) => {
             console.log('Number of increments: ' + result);
             expect(result).toEqual(1342);
+            done();
+          },
+        });
+    });
+
+    it('should return number of interval increments', (done) => {
+      axios
+        .get('/1/input')
+        .pipe(
+          map(({ data }) =>
+            data.split('\n').map((item) => of(Number.parseInt(item)))
+          ),
+          mergeMap((data: Observable<string>[]) => concat(...data)),
+          bufferCount(4, 1),
+          filter(([a, b, c, d]) => b + c + d > a + b + c),
+          toArray(),
+          map((increments) => increments.length)
+        )
+        .subscribe({
+          next: (result) => {
+            console.log('Number of increments: ' + result);
+            expect(result).toEqual(1378);
             done();
           },
         });
