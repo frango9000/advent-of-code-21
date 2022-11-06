@@ -102,5 +102,55 @@ describe('advent of code 21', () => {
           },
         });
     });
+
+    it('should track the depth horizontal and aim', (done) => {
+      axios
+        .get('/2/input')
+        .pipe(
+          map(({ data }) => data.split('\n').map((item) => of(item))),
+          mergeMap((data: Observable<string>[]) => concat(...data)),
+          scan(
+            (acc: { x: number; y: number; aim: number }, curr: string) => {
+              const direction = curr.split(' ')[0];
+              const magnitude = Number.parseInt(curr.split(' ')[1]);
+              let deltaX = 0,
+                deltaY = 0,
+                deltaAim = 0;
+
+              switch (direction) {
+                case 'up':
+                  deltaY = -magnitude;
+                  deltaAim = -magnitude;
+                  break;
+                case 'down':
+                  deltaY = magnitude;
+                  deltaAim = magnitude;
+                  break;
+                case 'forward':
+                  deltaX = magnitude;
+                  deltaY = acc.aim * magnitude;
+                  break;
+              }
+
+              return {
+                x: acc.x + deltaX,
+                y: acc.y + deltaY,
+                aim: acc.aim + deltaAim,
+              };
+            },
+            { x: 0, y: 0, aim: 0 }
+          ),
+          last()
+        )
+        .subscribe({
+          next: (result) => {
+            console.log('Final Position: x: ' + result.x + ' y: ' + result.y);
+            console.log('Final answer: ' + result.x * result.y);
+
+            expect(result.x * result.y).toEqual(1561344);
+            done();
+          },
+        });
+    });
   });
 });

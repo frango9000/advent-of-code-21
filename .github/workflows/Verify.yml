@@ -14,8 +14,8 @@ jobs:
 
       - name: Use Node 16
         uses: actions/setup-node@v3.5.1
-        cache: 'yarn'
         with:
+          cache: 'yarn'
           node-version: '16'
 
       - name: Yarn Install
