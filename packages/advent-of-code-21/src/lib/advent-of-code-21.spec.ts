@@ -3,11 +3,13 @@ import {
   bufferCount,
   concat,
   filter,
+  last,
   map,
   mergeMap,
   Observable,
   of,
   pairwise,
+  scan,
   toArray,
 } from 'rxjs';
 
@@ -61,6 +63,41 @@ describe('advent of code 21', () => {
           next: (result) => {
             console.log('Number of increments: ' + result);
             expect(result).toEqual(1378);
+            done();
+          },
+        });
+    });
+  });
+  describe('Day 2', () => {
+    it('should track the depth and horizontal position', (done) => {
+      axios
+        .get('/2/input')
+        .pipe(
+          map(({ data }) => data.split('\n').map((item) => of(item))),
+          mergeMap((data: Observable<string>[]) => concat(...data)),
+          scan(
+            (acc: { x: number; y: number }, curr: string) => {
+              const direction = curr.split(' ')[0];
+              const magnitude = Number.parseInt(curr.split(' ')[1]);
+              let deltaX = direction === 'forward' ? magnitude : 0;
+              let deltaY =
+                direction === 'up'
+                  ? -magnitude
+                  : direction === 'down'
+                  ? +magnitude
+                  : 0;
+              return { x: acc.x + deltaX, y: acc.y + deltaY };
+            },
+            { x: 0, y: 0 }
+          ),
+          last()
+        )
+        .subscribe({
+          next: (result) => {
+            console.log('Final Position: x: ' + result.x + ' y: ' + result.y);
+            console.log('Final answer: ' + result.x * result.y);
+
+            expect(result.x * result.y).toEqual(1561344);
             done();
           },
         });
