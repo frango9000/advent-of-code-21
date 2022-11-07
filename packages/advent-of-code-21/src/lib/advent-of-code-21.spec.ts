@@ -119,11 +119,9 @@ describe('advent of code 21', () => {
 
               switch (direction) {
                 case 'up':
-                  deltaY = -magnitude;
                   deltaAim = -magnitude;
                   break;
                 case 'down':
-                  deltaY = magnitude;
                   deltaAim = magnitude;
                   break;
                 case 'forward':
@@ -147,7 +145,7 @@ describe('advent of code 21', () => {
             console.log('Final Position: x: ' + result.x + ' y: ' + result.y);
             console.log('Final answer: ' + result.x * result.y);
 
-            expect(result.x * result.y).toEqual(1561344);
+            expect(result.x * result.y).toEqual(1848454425);
             done();
           },
         });
