@@ -15,9 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@advent-of-code-21/advent-of-code-21": [
-        "packages/advent-of-code-21/src/index.ts"
-      ]
+      "@advent-of-code-21/advent-of-code-21": ["packages/advent-of-code-21/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
