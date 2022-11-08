@@ -5,20 +5,14 @@
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
-      "outputs": [
-        "{options.outputFile}"
-      ],
+      "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": [
-          "packages/advent-of-code-21/**/*.ts"
-        ]
+        "lintFilePatterns": ["packages/advent-of-code-21/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": [
-        "coverage/packages/advent-of-code-21"
-      ],
+      "outputs": ["coverage/packages/advent-of-code-21"],
       "options": {
         "jestConfig": "packages/advent-of-code-21/jest.config.js",
         "passWithNoTests": true
