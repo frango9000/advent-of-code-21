@@ -151,4 +151,48 @@ describe('advent of code 21', () => {
         });
     });
   });
+
+  describe('Day 3', () => {
+    it('should return the number of trees', (done) => {
+      axios
+        .get('/3/input')
+        .pipe(
+          map(({ data }) => data.split('\n').map((item) => of(item))),
+          mergeMap((data: Observable<string>[]) => concat(...data)),
+          scan(
+            (acc: { counter: number[]; length: number }, curr: string) => {
+              for (let i = 0; i < curr.length; i++) {
+                if (!acc.counter[i]) acc.counter[i] = 0;
+                if (curr.charAt(i) === '1') acc.counter[i]++;
+              }
+              acc.length++;
+              return acc;
+            },
+            { counter: [], length: 0 }
+          ),
+          last(),
+          map((result: { counter: number[]; length: number }) =>
+            result.counter
+              .map((item, index) =>
+                result.counter[index] > result.length / 2 ? '1' : '0'
+              )
+              .join('')
+          ),
+          map((binaryGamma: string) => ({
+            gamma: parseInt(binaryGamma, 2),
+            epsilon:
+              Math.pow(2, binaryGamma.length) - 1 - parseInt(binaryGamma, 2),
+          }))
+        )
+        .subscribe((result: { gamma: number; epsilon: number }) => {
+          console.log(
+            'Scan rates: gamma: ' + result.gamma + ' epsilon: ' + result.epsilon
+          );
+          console.log('Power Consumption: ' + result.gamma * result.epsilon);
+
+          expect(result.gamma * result.epsilon).toEqual(3901196);
+          done();
+        });
+    });
+  });
 });
