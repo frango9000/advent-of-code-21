@@ -17,7 +17,7 @@
     "@nrwl/eslint-plugin-nx": "13.8.4",
     "@nrwl/jest": "13.8.4",
     "@nrwl/js": "13.8.4",
-    "@nrwl/linter": "13.8.4",
+    "@nrwl/linter": "15.0.11",
     "@nrwl/tao": "13.8.4",
     "@nrwl/workspace": "13.8.4",
     "@types/jest": "27.0.2",
