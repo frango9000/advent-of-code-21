@@ -1,1 +1,1 @@
-export * from './lib/advent-of-code-21';
+export * from './lib/axios';
