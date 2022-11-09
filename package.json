@@ -18,7 +18,7 @@
     "@nrwl/jest": "15.0.12",
     "@nrwl/js": "15.0.12",
     "@nrwl/linter": "15.0.12",
-    "@nrwl/tao": "15.0.12",
+    "@nrwl/tao": "15.0.13",
     "@nrwl/workspace": "15.0.12",
     "@types/jest": "28.1.8",
     "@types/node": "18.11.9",
