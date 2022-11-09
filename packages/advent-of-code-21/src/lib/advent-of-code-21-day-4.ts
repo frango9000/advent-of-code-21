@@ -31,18 +31,22 @@ export function day4_2(): Observable<unknown> {
         .shift()
         .split(',')
         .map((item) => parseInt(item));
-      const bingoCards = input.map((item) => new BingoCard(item));
-      for (const number of bingoSequence) {
+      let bingoCards = input.map((item) => new BingoCard(item));
+
+      let bingoRound = -1;
+      let lastWinner: BingoCard | undefined;
+      while (bingoCards.length) {
+        bingoRound++;
+        const winners: BingoCard[] = [];
         for (const card of bingoCards) {
-          if (card.markNumberAndCheckLineWinner(number)) {
-            bingoCards.splice(bingoCards.indexOf(card), 1);
-          }
-          if (!bingoCards.length) {
-            return card.getFinalScore(number);
+          if (card.markNumberAndCheckLineWinner(bingoSequence[bingoRound])) {
+            winners.push(card);
+            lastWinner = card;
           }
         }
+        bingoCards = bingoCards.filter((card) => !winners.includes(card));
       }
-      throw new Error('No bingo winner');
+      return lastWinner?.getFinalScore(bingoSequence[bingoRound]);
     })
   );
 }

@@ -10,9 +10,7 @@ describe('Day 4', () => {
 
   it('should get bingo looser', (done) => {
     day4_2().subscribe((finalScore) => {
-      console.log(finalScore);
-      expect(finalScore).toBeLessThan(28810);
-      expect(finalScore).toBeLessThan(18936);
+      expect(finalScore).toBe(4880);
       done();
     });
   });
