@@ -5,8 +5,11 @@ export function day4_1(): Observable<number> {
   return axios.get('/4/input').pipe(
     map(({ data }) => {
       const input: string[] = data.split('\n\n');
-      const bingoSequence = input[0].split(',').map((item) => parseInt(item));
-      const bingoCards = input.slice(1).map((item) => new BingoCard(item));
+      const bingoSequence = input
+        .shift()
+        .split(',')
+        .map((item) => parseInt(item));
+      const bingoCards = input.map((item) => new BingoCard(item));
 
       for (const number of bingoSequence) {
         for (const card of bingoCards) {
@@ -21,7 +24,27 @@ export function day4_1(): Observable<number> {
 }
 
 export function day4_2(): Observable<unknown> {
-  return axios.get('/4/input').pipe();
+  return axios.get('/4/input').pipe(
+    map(({ data }) => {
+      const input: string[] = data.split('\n\n');
+      const bingoSequence = input
+        .shift()
+        .split(',')
+        .map((item) => parseInt(item));
+      const bingoCards = input.map((item) => new BingoCard(item));
+      for (const number of bingoSequence) {
+        for (const card of bingoCards) {
+          if (card.markNumberAndCheckLineWinner(number)) {
+            bingoCards.splice(bingoCards.indexOf(card), 1);
+          }
+          if (!bingoCards.length) {
+            return card.getFinalScore(number);
+          }
+        }
+      }
+      throw new Error('No bingo winner');
+    })
+  );
 }
 
 class BingoCard {
