@@ -23,3 +23,5 @@ jobs:
 
       - name: Advent of Code 21
         run: yarn run test
+        env:
+          AOC_SESSION: ${{ secrets.AOC_SESSION }}
