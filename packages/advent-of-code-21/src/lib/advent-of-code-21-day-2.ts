@@ -9,8 +9,8 @@ export function day2_1(): Observable<{ x: number; y: number }> {
       (acc: { x: number; y: number }, curr: string) => {
         const direction = curr.split(' ')[0];
         const magnitude = Number.parseInt(curr.split(' ')[1]);
-        let deltaX = direction === 'forward' ? magnitude : 0;
-        let deltaY = direction === 'up' ? -magnitude : direction === 'down' ? +magnitude : 0;
+        const deltaX = direction === 'forward' ? magnitude : 0;
+        const deltaY = direction === 'up' ? -magnitude : direction === 'down' ? +magnitude : 0;
         return { x: acc.x + deltaX, y: acc.y + deltaY };
       },
       { x: 0, y: 0 }

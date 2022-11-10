@@ -2,30 +2,29 @@ import { map, Observable } from 'rxjs';
 import { axios } from './axios';
 
 export function day5_1(): Observable<number> {
+  return getHotspots(false);
+}
+
+export function day5_2(): Observable<unknown> {
+  return getHotspots(true);
+}
+
+function getHotspots(includeDiagonals = false): Observable<number> {
   return axios.get('/5/input').pipe(
     map(({ data }) => {
       return data
+        .trim()
         .split('\n')
         .map((item) => {
-          let coordinates = item.split(' -> ').map((item) => {
-            let points = item.split(',').map((item) => Number.parseInt(item));
+          const coordinates = item.split(' -> ').map((item) => {
+            const points = item.split(',').map((item) => Number.parseInt(item));
             return { x: points[0], y: points[1] };
           });
-          return { from: coordinates[0], to: coordinates[1] };
+          return new Vector(coordinates[0], coordinates[1]);
         })
-        .filter((item) => item.from && item.to)
-        .filter((item) => item.from.x === item.to.x || item.from.y === item.to.y)
+        .filter((item) => includeDiagonals || item.from.x === item.to.x || item.from.y === item.to.y)
         .reduce((acc: Coordinate[], curr: Vector) => {
-          if (curr.to.x === curr.from.x) {
-            for (let y = curr.from.y; y != curr.to.y; curr.from.y < curr.to.y ? y++ : y--) {
-              acc.push({ x: curr.to.x, y });
-            }
-          } else {
-            for (let x = curr.from.x; x != curr.to.x; curr.from.x < curr.to.x ? x++ : x--) {
-              acc.push({ x, y: curr.to.y });
-            }
-          }
-          acc.push(curr.to);
+          acc.push(...curr.getAllCoordinates());
           return acc;
         }, [])
         .reduce((acc: { coordinate: Coordinate; counter: number }[], curr: Coordinate) => {
@@ -42,16 +41,29 @@ export function day5_1(): Observable<number> {
   );
 }
 
-export function day5_2(): Observable<unknown> {
-  return axios.get('/5/input').pipe();
-}
-
 interface Coordinate {
   x: number;
   y: number;
 }
 
-interface Vector {
-  from: Coordinate;
-  to: Coordinate;
+class Vector {
+  constructor(public readonly from: Coordinate, public readonly to: Coordinate) {
+    this.from = from;
+    this.to = to;
+  }
+
+  getAllCoordinates(): Coordinate[] {
+    const coordinates = [];
+    const deltaX = this.from.x < this.to.x ? 1 : this.from.x > this.to.x ? -1 : 0;
+    const deltaY = this.from.y < this.to.y ? 1 : this.from.y > this.to.y ? -1 : 0;
+    for (
+      let x = this.from.x, y = this.from.y;
+      (deltaX && (deltaX === 1 ? x <= this.to.x : x >= this.to.x)) ||
+      (deltaY && (deltaY === 1 ? y <= this.to.y : y >= this.to.y));
+      x += deltaX, y += deltaY
+    ) {
+      coordinates.push({ x, y });
+    }
+    return coordinates;
+  }
 }

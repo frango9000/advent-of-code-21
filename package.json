@@ -3,7 +3,11 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "test": "nx run-many --target=test --all"
+    "test": "nx run-many --target=test --all",
+    "format": "nx format:write",
+    "format:check": "nx format:check",
+    "lint": "nx workspace-lint && nx run-many --target=lint --all",
+    "validate": "yarn run lint && yarn run format:check && yarn run test"
   },
   "private": true,
   "dependencies": {

@@ -31,7 +31,7 @@ export function day3_2(): Observable<{ oxygenGenerationRate: number; co2Scrubber
   return axios.get('/3/input').pipe(
     map(({ data }) => data.split('\n')),
     map((diagnostics: string[]) => {
-      function getCommonRate(diagnostics: string[], mostCommon: boolean = true, index: number = 0): string {
+      function getCommonRate(diagnostics: string[], mostCommon = true, index = 0): string {
         const commonDigit =
           diagnostics.reduce((acc: number, curr: string) => {
             if (curr.charAt(index) === '1') acc++;
