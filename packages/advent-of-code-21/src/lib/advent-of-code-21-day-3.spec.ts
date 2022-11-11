@@ -1,6 +1,6 @@
 import { day3_1, day3_2 } from './advent-of-code-21-day-3';
 
-describe('Day 3', () => {
+describe('Day 3: Binary Diagnostic', () => {
   it('should return the power consumption', (done) => {
     day3_1().subscribe((result: { gamma: number; epsilon: number }) => {
       expect(result.gamma * result.epsilon).toEqual(3901196);

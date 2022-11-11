@@ -7,7 +7,7 @@
     "format": "nx format:write",
     "format:check": "nx format:check",
     "lint": "nx workspace-lint && nx run-many --target=lint --all",
-    "validate": "yarn run lint && yarn run format:check && yarn run test"
+    "validate": "yarn run format:check && yarn run lint && yarn run format:check && yarn run test"
   },
   "private": true,
   "dependencies": {
