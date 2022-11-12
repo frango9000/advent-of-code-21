@@ -8,8 +8,8 @@ describe('Day 10: Syntax Scoring', () => {
     return expect(firstValueFrom(api.get('/10/input').pipe(mapData, map(day10_1)))).resolves.toBe(167379);
   });
 
-  it.skip('should do stuff', async () => {
-    expect(day10_2()).toBe(1134);
-    return expect(firstValueFrom(api.get('/10/input').pipe(mapData, map(day10_2)))).resolves.toBe(810103102);
+  it('should return the middle score of the autocompleted sequences', async () => {
+    expect(day10_2()).toBe(288957);
+    return expect(firstValueFrom(api.get('/10/input').pipe(mapData, map(day10_2)))).resolves.toBe(2776842859);
   });
 });
