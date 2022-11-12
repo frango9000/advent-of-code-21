@@ -37,9 +37,33 @@ export function day11_1(data = testData): number {
 }
 
 export function day11_2(data = testData): number {
-  const scores = data.trim().split('\n');
+  const matrix: { exhausted: boolean; energy: number }[][] = data
+    .trim()
+    .split('\n')
+    .map((line) => line.split('').map((char) => ({ energy: Number.parseInt(char), exhausted: false })));
 
-  return scores.length;
+  const size = matrix.length * matrix[0].length;
+  let flashes = 0;
+  let step = 0;
+  while (flashes < size) {
+    flashes = 0;
+    step++;
+    for (let y = 0; y < matrix.length; y++) {
+      for (let x = 0; x < matrix[y].length; x++) {
+        flashes += increaseEnergy(matrix, y, x);
+      }
+    }
+    for (let y = 0; y < matrix.length; y++) {
+      for (let x = 0; x < matrix[y].length; x++) {
+        if (matrix[y][x].exhausted) {
+          matrix[y][x].energy = 0;
+          matrix[y][x].exhausted = false;
+        }
+      }
+    }
+  }
+
+  return step;
 }
 
 function increaseEnergy(matrix: { exhausted: boolean; energy: number }[][], y: number, x: number): number {
