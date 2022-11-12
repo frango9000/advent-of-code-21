@@ -1,5 +1,5 @@
 import { map, Observable } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day5_1(): Observable<number> {
   return getHotspots(false);
@@ -10,7 +10,7 @@ export function day5_2(): Observable<unknown> {
 }
 
 function getHotspots(includeDiagonals = false): Observable<number> {
-  return axios.get('/5/input').pipe(
+  return api.get('/5/input').pipe(
     map(({ data }) => {
       return data
         .trim()

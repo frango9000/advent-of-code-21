@@ -1,8 +1,8 @@
 import { concat, last, map, mergeMap, Observable, of, scan } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day2_1(): Observable<{ x: number; y: number }> {
-  return axios.get('/2/input').pipe(
+  return api.get('/2/input').pipe(
     map(({ data }) => data.split('\n').map((item) => of(item))),
     mergeMap((data: Observable<string>[]) => concat(...data)),
     scan(
@@ -20,7 +20,7 @@ export function day2_1(): Observable<{ x: number; y: number }> {
 }
 
 export function day2_2(): Observable<{ x: number; y: number; aim: number }> {
-  return axios.get('/2/input').pipe(
+  return api.get('/2/input').pipe(
     map(({ data }) => data.split('\n').map((item) => of(item))),
     mergeMap((data: Observable<string>[]) => concat(...data)),
     scan(

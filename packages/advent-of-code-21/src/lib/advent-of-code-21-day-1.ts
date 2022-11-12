@@ -1,8 +1,8 @@
-import { axios } from './axios';
+import { api } from './api';
 import { bufferCount, concat, filter, map, mergeMap, Observable, of, pairwise, toArray } from 'rxjs';
 
 export function day1_1(): Observable<number> {
-  return axios.get('/1/input').pipe(
+  return api.get('/1/input').pipe(
     map(({ data }) => data.split('\n').map((item) => of(Number.parseInt(item)))),
     mergeMap((data: Observable<string>[]) => concat(...data)),
     pairwise(),
@@ -13,7 +13,7 @@ export function day1_1(): Observable<number> {
 }
 
 export function day1_2(): Observable<number> {
-  return axios.get('/1/input').pipe(
+  return api.get('/1/input').pipe(
     map(({ data }) => data.split('\n').map((item) => of(Number.parseInt(item)))),
     mergeMap((data: Observable<string>[]) => concat(...data)),
     bufferCount(4, 1),

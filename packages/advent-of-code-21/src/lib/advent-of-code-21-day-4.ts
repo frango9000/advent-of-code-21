@@ -1,8 +1,8 @@
 import { map, Observable } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day4_1(): Observable<number> {
-  return axios.get('/4/input').pipe(
+  return api.get('/4/input').pipe(
     map(({ data }) => {
       const input: string[] = data.split('\n\n');
       const bingoSequence = input
@@ -24,7 +24,7 @@ export function day4_1(): Observable<number> {
 }
 
 export function day4_2(): Observable<unknown> {
-  return axios.get('/4/input').pipe(
+  return api.get('/4/input').pipe(
     map(({ data }) => {
       const input: string[] = data.split('\n\n');
       const bingoSequence = input

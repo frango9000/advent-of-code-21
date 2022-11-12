@@ -1,5 +1,5 @@
-import { map, Observable } from 'rxjs';
-import { axios } from './axios';
+import {map, Observable} from 'rxjs';
+import {api} from './api';
 
 /*
 
@@ -59,11 +59,11 @@ segment_size:usages
 
 */
 
+// const uniqueNumbers = [2, 4, 3, 7]
 const uniqueNumbers = ['11'.length, '4444'.length, '777'.length, '8888888'.length];
 
 export function day8_1(): Observable<number> {
-  // const uniqueNumbers = [2, 4, 3, 7]
-  return axios.get('/8/input').pipe(
+  return api.get('/8/input').pipe(
     map(({ data }) => {
       return data
         .trim()
@@ -77,7 +77,7 @@ export function day8_1(): Observable<number> {
 }
 
 export function day8_2(): Observable<number> {
-  return axios.get('/8/input').pipe(
+  return api.get('/8/input').pipe(
     map(({ data }) => {
       return data
         .trim()

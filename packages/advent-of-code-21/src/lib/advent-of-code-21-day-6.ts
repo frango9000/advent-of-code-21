@@ -1,5 +1,5 @@
 import { map, Observable } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day6_1(): Observable<number> {
   return getLanternFishes(80);
@@ -10,7 +10,7 @@ export function day6_2(): Observable<number> {
 }
 
 function getLanternFishes(days = 80): Observable<number> {
-  return axios.get('/6/input').pipe(
+  return api.get('/6/input').pipe(
     map(({ data }) => {
       const fishes = data
         .trim()
@@ -32,7 +32,7 @@ function getLanternFishes(days = 80): Observable<number> {
 }
 
 function getMoreLanternFishes(days = 256): Observable<number> {
-  return axios.get('/6/input').pipe(
+  return api.get('/6/input').pipe(
     map(({ data }) => {
       const fishes = data
         .trim()

@@ -1,8 +1,8 @@
 import { map, Observable } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day7_1(): Observable<number> {
-  return axios.get('/7/input').pipe(
+  return api.get('/7/input').pipe(
     map(({ data }) => {
       const crabSubs = data
         .trim()
@@ -30,7 +30,7 @@ export function day7_1(): Observable<number> {
 }
 
 export function day7_2(): Observable<number> {
-  return axios.get('/7/input').pipe(
+  return api.get('/7/input').pipe(
     // return of({ data: '16,1,2,0,4,2,7,1,2,14' }).pipe(
     map(({ data }) => {
       const crabSubs = data

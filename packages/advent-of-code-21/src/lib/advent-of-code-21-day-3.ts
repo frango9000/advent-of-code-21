@@ -1,8 +1,8 @@
 import { concat, last, map, mergeMap, Observable, of, scan } from 'rxjs';
-import { axios } from './axios';
+import { api } from './api';
 
 export function day3_1(): Observable<{ gamma: number; epsilon: number }> {
-  return axios.get('/3/input').pipe(
+  return api.get('/3/input').pipe(
     map(({ data }) => data.split('\n').map((item) => of(item))),
     mergeMap((data: Observable<string>[]) => concat(...data)),
     scan(
@@ -28,7 +28,7 @@ export function day3_1(): Observable<{ gamma: number; epsilon: number }> {
 }
 
 export function day3_2(): Observable<{ oxygenGenerationRate: number; co2ScrubberRate: number }> {
-  return axios.get('/3/input').pipe(
+  return api.get('/3/input').pipe(
     map(({ data }) => data.split('\n')),
     map((diagnostics: string[]) => {
       function getCommonRate(diagnostics: string[], mostCommon = true, index = 0): string {
