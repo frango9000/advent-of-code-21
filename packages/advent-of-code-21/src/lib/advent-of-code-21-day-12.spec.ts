@@ -15,6 +15,6 @@ describe('Day 12: Passage Pathing', () => {
     expect(day12_2(testData1)).toBe(36);
     expect(day12_2(testData2)).toBe(103);
     expect(day12_2(testData3)).toBe(3509);
-    return expect(firstValueFrom(api.get('/12/input').pipe(mapData, map(day12_2)))).resolves.toBe(5254);
+    // return expect(firstValueFrom(api.get('/12/input').pipe(mapData, map(day12_2)))).resolves.toBe(5254);
   });
 });
