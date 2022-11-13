@@ -55,8 +55,19 @@ export function day12_1(data = testData1): number {
 }
 
 export function day12_2(data = testData1): number {
-  console.log(data);
-  return 0;
+  const connections: string[] = data.trim().split('\n');
+  const caves = new Map<string, Cave>();
+
+  for (const connection of connections) {
+    const [from, to] = connection.split('-');
+    const fromCave = caves.get(from) || new Cave(from);
+    const toCave = caves.get(to) || new Cave(to);
+    Cave.connect(fromCave, toCave);
+    caves.set(from, fromCave);
+    caves.set(to, toCave);
+  }
+
+  return caves.get('start').findPathsTo2('start', 'end').length;
 }
 
 class Cave {
@@ -82,6 +93,30 @@ class Cave {
       for (const cave of this.connectedCaves) {
         if (cave.major || !path.includes(cave.name)) {
           cave.findPathsTo(target, currentPath, paths);
+        }
+      }
+    }
+    return paths.map((path) => path.join(','));
+  }
+
+  findPathsTo2(
+    source: string,
+    target: string,
+    path: string[] = [],
+    paths: string[][] = [],
+    doubleMinorExhausted?: boolean
+  ): string[] {
+    const currentPath = path.concat(this.name);
+    if (this.name === target) {
+      paths.push(currentPath);
+    } else {
+      for (const cave of this.connectedCaves) {
+        if (cave.name !== source) {
+          if (cave.major || !path.includes(cave.name)) {
+            cave.findPathsTo2(source, target, currentPath, paths, doubleMinorExhausted);
+          } else if (!doubleMinorExhausted) {
+            cave.findPathsTo2(source, target, currentPath, paths, true);
+          }
         }
       }
     }
