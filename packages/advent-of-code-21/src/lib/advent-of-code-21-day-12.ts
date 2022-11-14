@@ -1,3 +1,5 @@
+import { SW } from './stopwatch';
+
 export const testData1 = `start-A
 start-b
 A-c
@@ -50,8 +52,7 @@ export function day12_1(data = testData1): number {
     caves.set(from, fromCave);
     caves.set(to, toCave);
   }
-
-  return caves.get('start').findPathsTo('end').length;
+  return findNumberOfPaths(caves.get('start'), [], true);
 }
 
 export function day12_2(data = testData1): number {
@@ -66,8 +67,7 @@ export function day12_2(data = testData1): number {
     caves.set(from, fromCave);
     caves.set(to, toCave);
   }
-
-  return caves.get('start').findPathsTo2('start', 'end').length;
+  return findNumberOfPaths(caves.get('start'), [], false);
 }
 
 class Cave {
@@ -85,6 +85,7 @@ class Cave {
     this.major = name.toUpperCase() === name;
   }
 
+  //Part 1: 25secs x_X
   findPathsTo(target: string, path: string[] = [], paths: string[][] = []): string[] {
     const currentPath = path.concat(this.name);
     if (this.name === target) {
@@ -99,6 +100,7 @@ class Cave {
     return paths.map((path) => path.join(','));
   }
 
+  // Part 2: 5hrs++ and less than 25%, estimated time is 20Hrs (Didn't wait to find out) ^_^
   findPathsTo2(
     source: string,
     target: string,
@@ -122,4 +124,26 @@ class Cave {
     }
     return paths.map((path) => path.join(','));
   }
+}
+
+// Part 1: 6ms
+// Part 2: 125ms
+function findNumberOfPaths(graph: Cave, path: string[] = [], doubleMinorExhausted?: boolean) {
+  if (graph.name === 'end') {
+    return 1;
+  }
+  if (graph.name === 'start') {
+    path.push('start');
+  }
+  let validPaths = 0;
+  for (const cave of graph.connectedCaves) {
+    if (cave.name !== 'start') {
+      if (cave.major || !path.includes(cave.name)) {
+        validPaths += findNumberOfPaths(cave, [...path, cave.name], doubleMinorExhausted);
+      } else if (!doubleMinorExhausted) {
+        validPaths += findNumberOfPaths(cave, [...path, cave.name], true);
+      }
+    }
+  }
+  return validPaths;
 }
