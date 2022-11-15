@@ -1,4 +1,4 @@
-export class SW {
+export class StopWatch {
   start = 0;
   end = 0;
 
@@ -9,5 +9,9 @@ export class SW {
   stop(): number {
     this.end = Date.now();
     return this.end - this.start;
+  }
+
+  stopAndLog(): void {
+    console.log(`${this.stop()}ms`);
   }
 }

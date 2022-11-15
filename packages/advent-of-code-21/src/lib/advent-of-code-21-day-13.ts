@@ -55,9 +55,28 @@ export function day13_1(data = testData1): number {
 }
 
 export function day13_2(data = testData1): number {
-  const lines: string[] = data.trim().split('\n');
+  const [rawPoints, rawActions]: string[] = data.trim().split('\n\n');
+  let points: Point[] = rawPoints.split('\n').map((point) => {
+    const [x, y] = point.split(',').map((coord) => parseInt(coord, 10));
+    return { x, y };
+  });
 
-  return lines.length;
+  const actions: FoldAction[] = rawActions.split('\n').map((point) => {
+    const [axis, magnitude] = point.slice(11).split('=');
+    return { axis, magnitude: parseInt(magnitude) };
+  });
+
+  for (const action of actions) {
+    const [base, fold] = foldMatrix(points, (point) =>
+      point[action.axis] > action.magnitude ? -1 : point[action.axis] < action.magnitude ? 1 : 0
+    );
+
+    const foldReflection = reflectMatrix(fold, action);
+
+    points = mergeMatrix(base, foldReflection);
+  }
+  printMatrix(points);
+  return points.length;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -93,4 +112,17 @@ function mergeMatrix(base: Point[], foldReflection: Point[]): Point[] {
   return base.concat(
     foldReflection.filter((point) => !base.some((basePoint) => point.x === basePoint.x && point.y === basePoint.y))
   );
+}
+
+function printMatrix(points: Point[]) {
+  const maxX = Math.max(...points.map((point) => point.x));
+  const maxY = Math.max(...points.map((point) => point.y));
+
+  const matrix = Array.from({ length: maxY + 1 }).map(() => Array.from({ length: maxX + 1 }).fill('.'));
+
+  for (const point of points) {
+    matrix[point.y][point.x] = '#';
+  }
+
+  console.log(matrix.map((row) => row.join('')).join('\n'));
 }

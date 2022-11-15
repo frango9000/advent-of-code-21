@@ -8,8 +8,8 @@ describe('Day 13: Transparent Origami', () => {
     return expect(firstValueFrom(api.get('/13/input').pipe(mapData, map(day13_1)))).resolves.toBe(693);
   });
 
-  it.skip('should how many dots are visible after completing all fold instruction', async () => {
-    expect(day13_2(testData1)).toBe(36);
-    return expect(firstValueFrom(api.get('/13/input').pipe(mapData, map(day13_2)))).resolves.toBe(149385);
+  it('should how many dots are visible after completing all fold instruction (UCLZRAZU)', async () => {
+    expect(day13_2(testData1)).toBe(16);
+    return expect(firstValueFrom(api.get('/13/input').pipe(mapData, map(day13_2)))).resolves.toBe(95);
   });
 });
