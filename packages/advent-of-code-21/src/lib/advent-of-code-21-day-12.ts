@@ -1,5 +1,3 @@
-import { SW } from './stopwatch';
-
 export const testData1 = `start-A
 start-b
 A-c
@@ -126,8 +124,8 @@ class Cave {
   }
 }
 
-// Part 1: 6ms
-// Part 2: 125ms
+// Part 1: 3ms
+// Part 2: 83ms
 function findNumberOfPaths(graph: Cave, path: string[] = [], doubleMinorExhausted?: boolean) {
   if (graph.name === 'end') {
     return 1;
